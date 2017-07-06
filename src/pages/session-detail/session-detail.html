@@ -1,0 +1,71 @@
+<ion-header>
+  <!--<ion-navbar>-->
+    <!--<ion-title *ngIf="session">{{session.name}}</ion-title>-->
+  <!--</ion-navbar>-->
+  <ion-navbar no-border-bottom>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+      <ion-segment-button value="top">
+        Top
+      </ion-segment-button>
+      <ion-segment-button value="trending">
+        Trending
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list #scheduleList [hidden]="shownSessions === 0" class="music-list">
+
+    <!--<ion-item-group *ngFor="let group of groups" [hidden]="group.hide">-->
+
+      <!--<ion-item-divider sticky>-->
+        <!--<ion-label>-->
+          <!--{{group.time}}-->
+        <!--</ion-label>-->
+      <!--</ion-item-divider>-->
+      <ion-item *ngFor="let item of musicList">
+        <ion-item (click)="goToSessionDetail(session)">
+          <ion-thumbnail item-start>
+            <img [src]="item.track.artwork_url || item.track.user.avatar_url">
+          </ion-thumbnail>
+          <h3>{{item.track.title}}</h3>
+          <p>
+            {{item.track.description}}
+          </p>
+        </ion-item>
+      </ion-item>
+
+      <!--<ion-item-sliding *ngFor="let session of group.sessions" #slidingItem [attr.track]="session.tracks[0] | lowercase" [hidden]="session.hide">-->
+
+        <!--<button ion-item (click)="goToSessionDetail(session)">-->
+          <!--<h3>{{session.name}}</h3>-->
+          <!--<p>-->
+            <!--{{session.timeStart}} &mdash;-->
+            <!--{{session.timeEnd}}:-->
+            <!--{{session.location}}-->
+          <!--</p>-->
+        <!--</button>-->
+
+        <!--<ion-item-options>-->
+          <!--<button ion-button color="favorite" (click)="addFavorite(slidingItem, session)">-->
+            <!--Favorite-->
+          <!--</button>-->
+          <!--<button ion-button color="danger" (click)="removeFavorite(slidingItem, session, 'Remove Favorite')">-->
+            <!--Remove-->
+          <!--</button>-->
+        <!--</ion-item-options>-->
+
+      <!--</ion-item-sliding>-->
+
+    <!--</ion-item-group>-->
+
+  </ion-list>
+</ion-content>
